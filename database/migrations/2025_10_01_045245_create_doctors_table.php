@@ -15,7 +15,7 @@ return new class extends Migration
     $table->id();
     $table->string('foto'); // simpan path foto
     $table->string('nama');
-    $table->text('spesialis'); // bisa panjang untuk filter
+    $table->text('spesialist'); // bisa panjang untuk filter
     $table->timestamps();
 });
 }

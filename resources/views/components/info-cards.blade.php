@@ -1,36 +1,6 @@
-<div id="infoCards" class="flex flex-col md:flex-row justify-center items-center gap-8 my-20 opacity-0 transition-all duration-1000">
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var infoCards = document.getElementById('infoCards');
-    if (infoCards) {
-        var observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    infoCards.classList.add('opacity-100', 'translate-y-0');
-                    infoCards.classList.remove('opacity-0');
-                }
-            });
-        }, { threshold: 0.2 });
-        infoCards.classList.add('translate-y-10');
-        observer.observe(infoCards);
-    }
-});
-</script>
-<style>
-.translate-y-10 { transform: translateY(40px); }
-.translate-y-0 { transform: translateY(0); }
-</style>
-<style>
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.animate-fadeIn {
-    animation: fadeIn 1s ease forwards;
-}
-</style>
+<div id="infoCards" class="flex flex-col md:flex-row justify-center items-center gap-8 my-20">
     <!-- Card 1: Coba Tes -->
-    <div class="bg-white rounded-2xl shadow-xl p-10 w-80 flex flex-col items-center justify-center text-center">
+    <div class="info-card bg-white rounded-2xl shadow-xl p-10 w-80 flex flex-col items-center justify-center text-center opacity-0 translate-y-10">
         <div>
             <div class="flex items-center justify-center mb-4">
                 <i class="fas fa-vial text-blue-600 text-3xl"></i>
@@ -40,8 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <a href="{{ route('takeatest') }}" class="bg-blue-700 text-white px-6 py-2 rounded font-semibold hover:bg-blue-800 transition w-full text-center">Mulai Tes</a>
     </div>
+
     <!-- Card 2: Jam Kerja -->
-    <div class="bg-white rounded-2xl shadow-xl p-10 w-80 flex flex-col justify-between items-center">
+    <div class="info-card bg-white rounded-2xl shadow-xl p-10 w-80 flex flex-col justify-between items-center opacity-0 translate-y-10">
         <div>
             <div class="flex items-center justify-center mb-4">
                 <i class="fas fa-clock text-blue-600 text-3xl"></i>
@@ -54,8 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
             </ul>
         </div>
     </div>
+
     <!-- Card 3: Kontak Darurat -->
-    <div class="bg-white rounded-2xl shadow-xl p-10 w-80 flex flex-col justify-between items-center">
+    <div class="info-card bg-white rounded-2xl shadow-xl p-10 w-80 flex flex-col justify-between items-center opacity-0 translate-y-10">
         <div>
             <div class="flex items-center justify-center mb-4">
                 <i class="fas fa-phone-volume text-blue-600 text-3xl"></i>
@@ -66,3 +38,34 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </div>
+
+<style>
+.info-card {
+    transition: all 0.8s ease;
+}
+.translate-y-10 { transform: translateY(40px); }
+.translate-y-0 { transform: translateY(0); }
+.opacity-0 { opacity: 0; }
+.opacity-100 { opacity: 1; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.info-card');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('opacity-100', 'translate-y-0');
+                        card.classList.remove('opacity-0', 'translate-y-10');
+                    }, index * 300); // delay 300ms per card
+                });
+                observer.unobserve(entry.target); // animasi hanya sekali
+            }
+        });
+    }, { threshold: 0.2 });
+
+    cards.forEach(card => observer.observe(card));
+});
+</script>
